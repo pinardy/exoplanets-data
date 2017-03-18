@@ -1,5 +1,8 @@
 # Dataplot for dataset_3
 
+# INSTRUCTIONS: Build and run to obtain the set of graphs saved in your 
+# directory under "\graphs\dataset3\"
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -37,6 +40,7 @@ f2.close()
 # initialize some variable to be lists
 dataStructDict = {}
 dirPath = os.path.dirname(os.path.realpath(__file__)) + "\\graphs\\dataset3\\"
+
 # initialize directory
 if not os.path.exists(dirPath):
     os.makedirs(dirPath)

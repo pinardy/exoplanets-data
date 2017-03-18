@@ -1,42 +1,60 @@
-# Dataplot for new_dataset_1
+# Dataplot for dataset_2
+
+# INSTRUCTIONS: Build and run to obtain the set of graphs saved in your 
+# directory under "\graphs\dataset2\"
 
 import matplotlib.pyplot as plt
-import numpy as np 
+import numpy as np
+import os
 
-# Read the file. 
-# f2 = open('new_dataset_1.txt', 'r')
+class DataStruct:
+    def __init__(self, index):
+        self.index = str(index)
+        self.Xarray = []
+        self.Yarray = []
+    def appendX(self, x):
+        self.Xarray.append(x)
 
-with open('dataset_2.txt') as f:
-    f=[x.strip() for x in f if x.strip()]
-    data=[tuple(map(float,x.split())) for x in f[2:]]
-    phase=[x[1] for x in data]
-    flux=[x[2] for x in data]
-    cycle=[x[0] for x in data]
-    print('cycle',cycle)
-    print('flux',flux)
-    print('phase',phase)
+    def appendY(self, y):
+        self.Yarray.append(y)
+
+    def plot(self):
+        xv = np.array(self.Xarray)
+        yv = np.array(self.Yarray)
+        plt.figure(self.index)
+        plt.plot(xv, yv)
+        title = "multiple Orbit Example Light Curve for " + self.index
+        plt.title(title)
+        plt.xlabel('Decimal Phase')
+        plt.ylabel('Relative Flux')
+        plt.savefig(dirPath+self.index+".png")
+
+# Read the file.
+f2 = open('dataset_2.txt', 'r')
 
 # read the whole file into a single variable, which is a list of every row of the file.
-# lines = f2.readlines()
-# f2.close()
+lines = f2.readlines()
+f2.close()
 
 # initialize some variable to be lists
-x1 = []
-y1 = []
+dataStructDict = {}
+dirPath = os.path.dirname(os.path.realpath(__file__)) + "\\graphs\\dataset2\\"
+
+# initialize directory
+if not os.path.exists(dirPath):
+    os.makedirs(dirPath)
 
 # scan the rows of the file stored in lines, and put the values into some variables
-# for line in lines:
-#     p = line.split()
-#     x1.append(float(p[0]))
-#     y1.append(float(p[1]))
-    
-# xv = np.array(x1)
-# yv = np.array(y1)
+for line in lines:
+    p = line.split()
+    if (dataStructDict.get(p[0], None) == None):
+        dataStructDict[p[0]] = DataStruct(p[0])
+    dataStructDict[p[0]].appendX(float(p[1]))
+    dataStructDict[p[0]].appendY(float(p[2]))
 
+# iterate through the dictionary to print each orbit results
+for notImportant, dataStruct in dataStructDict.items():
+    dataStruct.plot()
 
 # plotting the data
-# plt.plot(xv, yv)
-# plt.title('Single Orbit Example Light Curve')
-# plt.xlabel('Phase')
-# plt.ylabel('Relative Flux')
 # plt.show()
