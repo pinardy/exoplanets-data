@@ -26,7 +26,6 @@ class DataStruct:
         plt.ylabel('Relative Flux')
         plt.savefig(dirPath+self.index+".png")
 
-
 # Read the file.
 f2 = open('dataset_3.txt', 'r')
 
@@ -52,6 +51,35 @@ for line in lines:
 # iterate through the dictionary to print each orbit results
 for notImportant, dataStruct in dataStructDict.items():
     dataStruct.plot()
+    minmy=[]
+    minmx=[]
+    findminx=[]
+    findminy=[]
+    minmpointx=[]
+    minmpointy=[]
+    y1=dataStruct.Yarray
+    x1=dataStruct.Xarray
+    for i in range(1,len(y1)-1):
+        if ( (y1[i-1]>y1[i]) and  (y1[i]<y1[i+1]) ):
+            if(y1[i]<0.990):
+                    minmy.append(y1[i])
+                    minmx.append(x1[i])
+    for i in range(1,len(minmy)-1):
+        
+        if(minmx[i]-minmx[i-1]<1):
+            findminx.append(minmx[i-1])
+            findminy.append(minmy[i-1])
+        else:
+            findminx.append(minmx[i-1])
+            findminy.append(minmy[i-1])
+            minpoint=np.min(findminy)
+            index=findminy.index(minpoint)
+            minmpointx.append(findminx[index])
+            minmpointy.append(findminy[index])
+            findminx=[]
+            findminy=[]
+    for i in range(0,len(minmpointx)):
+        print "graph",i, "phase:",minmpointx[i],"flux",minmpointy[i]
 
 # plotting the data
 plt.show()
