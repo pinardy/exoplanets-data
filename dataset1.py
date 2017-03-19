@@ -1,5 +1,8 @@
 # Dataplot for dataset_1
 
+# INSTRUCTIONS: Build and run to obtain the graph for dataset_1
+
+
 import matplotlib.pyplot as plt
 import numpy as np 
 
